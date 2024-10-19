@@ -23,19 +23,19 @@ logger = logging.Logger('XOR')
 logger.setLevel(logging.DEBUG)
 fh = logging.FileHandler('xor.log')
 logger.addHandler(fh)
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 
 network =[
     Dense(2,3),
     TanH(),
-    Dense(3,4),
-    TanH(),
-    Dense(4,1),
+    Dense(3,1),
     TanH()
 ]
 
-epochs = 100000
-learning_rate = 0.001
+epochs = 10000
+learning_rate = 0.01
 logger.warning("NEW SESSION START")
 for epoch in range(epochs):
     error = 0
@@ -61,3 +61,16 @@ def predict(network,_input):
 
 print(predict(network,[[0],[0]]))
 
+# decision boundary plot
+points = []
+for x in np.linspace(0, 1, 20):
+    for y in np.linspace(0, 1, 20):
+        z = predict(network, [[x], [y]])
+        points.append([x, y, z[0,0]])
+
+points = np.array(points)
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection="3d")
+ax.scatter(points[:, 0], points[:, 1], points[:, 2], c=points[:, 2], cmap="winter")
+plt.show()
