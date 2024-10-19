@@ -1,0 +1,62 @@
+1) Forward Passs
+2) Calculate the error 
+3) Adjust paarms using back prop equation 
+4) start again
+
+--------
+Requirements 
+------------------
+Base Layer 
+
+1) Need a Base layer 
+2) Layer needs i/p amd o/p paarms
+3) Given derivative of output must give out derivative of input 
+
+---------------
+Dense layer 
+1) In a dense layer every input neuron is connected to every output neuron 
+2) Each connection is a weight 
+3) Output is weighted sum of all input to the neuron + bias 
+
+
+---------
+
+BackProp in Dense Layer 
+----------------------------Part 1 --> Update weights + biases ----------------
+1) Given dE/dY .... we have to find dE/dW matrix ... where W is weights of all layers 
+2) After a few calculations dE/d(wji) = dE/dy(j) * x(i) ---> Obseravtion 1
+3) Now use this result to fill the dE/dW Matrix 
+4) Observation 2 ---> results can be split into two different matrices 
+                 --->[ dE/dy1          |
+                       dE/dy2          |
+                       dE/dy3          |
+                       ......          |              [x1,x2.x3....,x(i)]
+                       ......          |     
+                    dE/dy(j)   ]       |
+                   |Matrix 1|          |             |Matrix 2| 
+                   |(dE/dY)|                        |X Transpose|
+
+5) Reform the  equation to be dE/dW = (dE/dY).X(transpose)
+
+6) similarly to find dE/db ... for change in biases ... the equation turns out to be 
+____________________
+|dE/Db(j) = dE/db(j)|
+'''''''''''''''''''''
+-------------------------Part 2 --> Send the gradient backward ----------------
+1) Which happenes to be  dE/dX
+
+
+dE/dX = [ dE/dx1, dE/dx2 ... , dE/dxi]
+--- Sample ---
+dE/dX1 = (dE/dY) * (dY/dX1)
+      = [(dE/dy1) * (dy1/dX1),(dE/dy2) * (dy2/dX1)...,(dE/dyi) * (dyi/dX1)]
+      .... Here dy1/dX1 is just correspoding weight so.. dy1/dx1= w11
+      = [(dE/dy1) * (w11),(dE/dy2) * w(21),...,(dE/dyi) * w(i1)]
+
+------ This was for one row in the dE/dW Matrix ----------
+Again this can be reexpressed as a matrix in the form of 
+_______________________
+|dE/dX = W(^T) * dE/dY|
+'''''''''''''''''''''''
+
+------------------------------------------------------------------------------------------
